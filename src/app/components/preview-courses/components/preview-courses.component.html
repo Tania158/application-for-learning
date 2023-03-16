@@ -1,0 +1,26 @@
+<div class="container">
+  <h1>Courses</h1>
+  <app-loading *ngIf="isLoading$ | async"></app-loading>
+  <div class="row course-container" *ngIf="!(isLoading$ | async) && (allCourses$ | async)">
+    <div class="course-item" *ngFor="let course of (allCourses$ | async)">
+      <div class="">
+        <div class="image-block">
+          <img src="{{ course.previewImageLink + '/cover.webp' }}" alt="course-image" class="img-fluid">
+        </div>
+        <div class="content-block">
+          <h4>{{ course.title }}</h4>
+          <p>Lectures: {{ course.lessonsCount }}</p>
+          <div>
+            {{ course.rating }}
+          </div>
+          <div>
+            <p>Skills you will acquire:</p>
+            <ul>
+              <li *ngFor="let courseSkill of course.meta.skills">{{ courseSkill }}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

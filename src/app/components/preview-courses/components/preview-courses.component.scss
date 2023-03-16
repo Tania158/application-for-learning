@@ -1,0 +1,26 @@
+.course-container {
+  column-gap: 2%;
+  row-gap: 19.5px;
+}
+@media (max-width: 991px) {}
+.course-item {
+  max-width: 49%;
+  padding-left: 0;
+  padding-right: 0;
+  background-color: white;
+  overflow: hidden;
+  border-radius: 15px;
+  display: flex
+}
+
+.course-item:hover {
+  box-shadow: 0px 2px 10px rgb(0 0 0 / 35%);
+  outline: none;
+}
+
+.content-block {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}

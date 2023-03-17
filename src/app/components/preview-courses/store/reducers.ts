@@ -1,19 +1,20 @@
 import { routerNavigationAction } from "@ngrx/router-store"
 import { Action, createReducer, on } from "@ngrx/store"
-import { ICourseStateInterface } from "src/app/shared/types/coursesState.interface"
-import { getCoursesAction, getCoursesFailureAction, getCoursesSuccesAction } from "./action/getCourses.action"
+import { ICoursesStateInterface } from "src/app/shared/types/coursesState.interface"
+import { getCoursesAction, getCoursesFailureAction, getCoursesSuccesAction, setPage } from './action/getCourses.action';
 
-const initialState: ICourseStateInterface = {
+const initialState: ICoursesStateInterface = {
   isLoading: false,
   error: null,
-  data: null
+  data: null,
+  currentPage: 1
 }
 
 const coursesReducer = createReducer(
   initialState,
   on(
     getCoursesAction,
-    (state): ICourseStateInterface => ({
+    (state): ICoursesStateInterface => ({
       ...state,
       isLoading: true,
       error: null,
@@ -21,7 +22,7 @@ const coursesReducer = createReducer(
   ),
   on(
     getCoursesSuccesAction,
-    (state, action): ICourseStateInterface => ({
+    (state, action): ICoursesStateInterface => ({
       ...state,
       isLoading: false,
       data: action.response,
@@ -30,17 +31,26 @@ const coursesReducer = createReducer(
   ),
   on(
     getCoursesFailureAction,
-    (state, action): ICourseStateInterface => ({
+    (state, action): ICoursesStateInterface => ({
       ...state,
       isLoading: false,
       error: action.errors
     })
   ),
   on(
-    routerNavigationAction, (): ICourseStateInterface => initialState
+    setPage,
+    (state, action): ICoursesStateInterface => ({
+      ...state,
+      isLoading: false,
+      error: null,
+      currentPage: action.pageNumber
+    })
+  ),
+  on(
+    routerNavigationAction, (): ICoursesStateInterface => initialState
   )
 )
 
-export function reducers(state: ICourseStateInterface, action: Action) {
+export function reducers(state: ICoursesStateInterface, action: Action) {
   return coursesReducer(state, action)
 }

@@ -6,16 +6,20 @@ import { StoreModule } from '@ngrx/store';
 import { reducers } from './store/reducers';
 import { GetCoursesEffect } from './store/effect/getCourses.effect';
 import { LoadingModule } from 'src/app/shared/components/loading/loading.module';
+import { UtilsService } from 'src/app/shared/services/utils.service';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   imports: [
     CommonModule,
+    RouterModule,
     EffectsModule.forFeature([GetCoursesEffect]),
     StoreModule.forFeature('allCourses', reducers),
     LoadingModule
   ],
   declarations: [
     PreviewCoursesComponent
-  ]
+  ],
+  providers: [UtilsService]
 })
 export class PreviewCoursesModule {}

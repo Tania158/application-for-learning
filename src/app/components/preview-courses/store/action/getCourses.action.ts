@@ -14,5 +14,10 @@ export const getCoursesSuccesAction = createAction(
 
 export const getCoursesFailureAction = createAction(
   ActionTypes.GET_COURSES_FAILURE,
-  props<{errors: IBackendErrorInterface}>()
-)
+  props<{ errors: IBackendErrorInterface }>()
+);
+
+export const setPage = createAction(
+  ActionTypes.SET_PAGE,
+  props<{ pageNumber: number }>()
+);

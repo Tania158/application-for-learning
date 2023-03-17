@@ -1,5 +1,7 @@
-import { ICourseStateInterface } from "./coursesState.interface";
+import { ICoursesStateInterface } from "./coursesState.interface";
+import { ICourseDataStateInterface } from "./courseState.interface";
 
 export interface AppStateInterface {
-  allCourses: ICourseStateInterface;
+  allCourses: ICoursesStateInterface;
+  course: ICourseDataStateInterface;
 }

@@ -12,6 +12,7 @@ import { StoreModule } from '@ngrx/store';
 import { routerReducer, StoreRouterConnectingModule } from '@ngrx/router-store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { PreviewCourseModule } from './components/preview-course/preview-course.module';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
       traceLimit: 75, // maximum stack trace frames to be stored (in case trace option was provided as true)
     }),
     PreviewCoursesModule,
+    PreviewCourseModule,
     HttpClientModule,
     NgxScrollTopModule
   ],

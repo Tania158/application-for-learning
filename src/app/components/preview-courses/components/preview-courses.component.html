@@ -1,26 +1,43 @@
 <div class="container">
   <h1>Courses</h1>
   <app-loading *ngIf="isLoading$ | async"></app-loading>
-  <div class="row course-container" *ngIf="!(isLoading$ | async) && (allCourses$ | async)">
-    <div class="course-item" *ngFor="let course of (allCourses$ | async)">
-      <div class="">
-        <div class="image-block">
-          <img src="{{ course.previewImageLink + '/cover.webp' }}" alt="course-image" class="img-fluid">
-        </div>
-        <div class="content-block">
-          <h4>{{ course.title }}</h4>
-          <p>Lectures: {{ course.lessonsCount }}</p>
-          <div>
-            {{ course.rating }}
+  <div *ngIf="!(isLoading$ | async) && allCourses">
+    <div class="row course-container">
+      <div class="course-item" *ngFor="let course of allCourses">
+        <div class="" [routerLink]="['/courses', course.id]">
+          <div class="image-block">
+            <img src="{{ course.previewImageLink + '/cover.webp' }}" alt="course-image" class="img-fluid">
           </div>
-          <div>
-            <p>Skills you will acquire:</p>
-            <ul>
-              <li *ngFor="let courseSkill of course.meta.skills">{{ courseSkill }}</li>
-            </ul>
+          <div class="content-block">
+            <h4>{{ course.title }}</h4>
+            <p>Lectures: {{ course.lessonsCount }}</p>
+            <div>
+              {{ course.rating }}
+            </div>
+            <div>
+              <p>Skills you will acquire:</p>
+              <ul>
+                <li *ngFor="let courseSkill of course.meta.skills">{{ courseSkill }}</li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
+    </div>
+    <div class="pagination-container">
+      <nav aria-label="Page navigation example">
+        <ul class="pagination">
+          <li class="page-item">
+            <button class="page-link" [disabled]="currentPage === 1" (click)="previousPage()">Previous</button>
+          </li>
+          <li class="page-item" *ngFor="let page of pages" [ngClass]="{active: currentPage === page}">
+            <a class="page-link" (click)="pageChanged(page)">{{ page }}</a>
+          </li>
+          <li class="page-item">
+            <button class="page-link" [disabled]="currentPage === totalPages" (click)="nextPage()">Next</button>
+          </li>
+        </ul>
+      </nav>
     </div>
   </div>
 </div>

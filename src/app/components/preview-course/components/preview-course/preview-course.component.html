@@ -1,0 +1,24 @@
+<div class="container">
+  <h1>Course Name</h1>
+  <app-loading *ngIf="isLoading$ | async"></app-loading>
+  <section>
+    <div *ngIf="!(isLoading$ | async) && courseData">
+      <div *ngFor="let courseLesson of courseData.lessons">
+        <div></div>
+        <section>
+          <div>
+            <h5>{{ courseLesson.title }}</h5>
+            <!-- <video id="video" src="{{ courseLesson.link }}"></video> -->
+          </div>
+        </section>
+      </div>
+      <div class="video-app">
+        <div class="video-player">
+          <app-video-wrapper></app-video-wrapper>
+          <app-controls></app-controls>
+        </div>
+        <app-video-list class="list"></app-video-list>
+      </div>
+    </div>
+  </section>
+</div>

@@ -4,6 +4,7 @@ import { map, Observable } from "rxjs";
 import { environment } from "src/environments/environment";
 import { IAllCoursesResponse } from "../types/allCoursesResponse.interface";
 import { ICourseData } from "../types/courseData.interface";
+import { ICourseResponse } from "../types/courseResponse.interface";
 
 @Injectable({
   providedIn: 'root'
@@ -26,5 +27,15 @@ export class PreviewCoursesService {
         })
       })
       .pipe(map(this.getCourses));
+  }
+
+  getCourseData(courseId: string): Observable<ICourseResponse> {
+    const url = environment.apiUrl + environment.previewCourses + `/${courseId}`;
+
+    return this.http.get<ICourseResponse>(url, {
+        headers: new HttpHeaders({
+          Authorization: 'Bearer ' + environment.token
+        })
+      });
   }
 }

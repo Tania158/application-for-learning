@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable, pipe, Subscription } from 'rxjs';
 import { AppStateInterface } from 'src/app/shared/types/appState.interface';
-import { IBackendErrorInterface } from 'src/app/shared/types/backendError.interface';
+import { IBackendError } from 'src/app/shared/types/backendError.interface';
 import { ICourseResponse } from 'src/app/shared/types/courseResponse.interface';
 import { getCourseDataAction } from '../store/action/getCourse.action';
 import { courseDataSelector, errorCourseSelector, isLoadingCourseSelector } from '../store/selectors';
@@ -18,7 +18,7 @@ export class PreviewCourseComponent implements OnInit, OnDestroy {
 
   courseId!: string;
   isLoading$!: Observable<boolean>;
-  error$!: Observable<IBackendErrorInterface | null>;
+  error$!: Observable<IBackendError | null>;
 
   courseSub!: Subscription;
   courseData!: ICourseResponse;

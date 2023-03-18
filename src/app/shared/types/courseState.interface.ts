@@ -1,8 +1,8 @@
-import { IBackendErrorInterface } from "./backendError.interface";
+import { IBackendError } from "./backendError.interface";
 import { ICourseResponse } from "./courseResponse.interface";
 
 export interface ICourseDataStateInterface {
   isLoading: boolean;
-  error: IBackendErrorInterface | null;
+  error: IBackendError | null;
   data: ICourseResponse | null;
 }

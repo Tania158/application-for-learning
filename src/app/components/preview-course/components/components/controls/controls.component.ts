@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatSliderChange } from '@angular/material/slider';
+import { ICourseResponse } from 'src/app/shared/types/courseResponse.interface';
 import { VideoPlaylistService } from '../../services/video-playlist.service';
 import { VideoTimeService } from '../../services/video-time.service';
 import { VideoService } from '../../services/video.service';
@@ -10,6 +11,7 @@ import { VideoService } from '../../services/video.service';
   styleUrls: ['./controls.component.scss']
 })
 export class ControlsComponent implements OnInit {
+  @Input('courseData') courseDataProps!: ICourseResponse;
   public playing = false;
   public currentProgress = 0;
   public duration = 0;
@@ -53,12 +55,12 @@ export class ControlsComponent implements OnInit {
 
   public onInput(event: MatSliderChange): void {
     this.videoTimeService.setIgnore(true);
-    this.videoTimeService.setVideoProgress(event.value);
+    this.videoTimeService.setVideoProgress(event.value ?? 0);
   }
 
   public onChange(event: MatSliderChange) {
     this.videoTimeService.setIgnore(false);
-    this.videoTimeService.setCurrentTime(event.value);
+    this.videoTimeService.setCurrentTime(event.value ?? 0);
   }
 
   public onFullscreen() {

@@ -8,6 +8,8 @@ import { GetCoursesEffect } from './store/effect/getCourses.effect';
 import { LoadingModule } from 'src/app/shared/components/loading/loading.module';
 import { UtilsService } from 'src/app/shared/services/utils.service';
 import { RouterModule } from '@angular/router';
+import { BackendErrorModule } from 'src/app/shared/components/backendError/backendError.module';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   imports: [
@@ -15,7 +17,9 @@ import { RouterModule } from '@angular/router';
     RouterModule,
     EffectsModule.forFeature([GetCoursesEffect]),
     StoreModule.forFeature('allCourses', reducers),
-    LoadingModule
+    LoadingModule,
+    BackendErrorModule,
+    MatIconModule,
   ],
   declarations: [
     PreviewCoursesComponent

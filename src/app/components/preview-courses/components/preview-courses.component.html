@@ -1,43 +1,88 @@
-<div class="container">
-  <h1>Courses</h1>
-  <app-loading *ngIf="isLoading$ | async"></app-loading>
-  <div *ngIf="!(isLoading$ | async) && allCourses">
-    <div class="row course-container">
-      <div class="course-item" *ngFor="let course of allCourses">
-        <div class="" [routerLink]="['/courses', course.id]">
-          <div class="image-block">
-            <img src="{{ course.previewImageLink + '/cover.webp' }}" alt="course-image" class="img-fluid">
+<app-backend-error *ngIf="error$ | async" [backendErrors]="error$ | async"></app-backend-error>
+
+<section class="greeting-section" *ngIf="!(error$ | async)">
+  <div class="container">
+    <div class="flex-block">
+      <div>
+        <h1 class="title">Learn without limits</h1>
+        <div class="greeting-text">
+          <div class="flex">
+            <img src="../../../../assets/icon-1.svg" alt="icon">
+            <div>Take the next step towards achieving your personal and professional goals</div>
           </div>
-          <div class="content-block">
-            <h4>{{ course.title }}</h4>
-            <p>Lectures: {{ course.lessonsCount }}</p>
-            <div>
-              {{ course.rating }}
+          <div class="flex">
+            <img src="../../../../assets/icon-2.svg" alt="icon">
+            <div>Courses you can complete in a day</div>
+          </div>
+          <div class="flex">
+            <img src="../../../../assets/icon-3.svg" alt="icon" style="width: 23px; margin-right: 13px;">
+            <div>Start learning with free courses</div>
+          </div>
+        </div>
+      </div>
+      <div class="img-container">
+        <img src="../../../../assets/IMAGE.svg" alt="icon">
+      </div>
+    </div>
+  </div>
+</section>
+<section class="courses-section" *ngIf="!(error$ | async)">
+  <div class="container">
+    <h2 class="content-area title"> All Courses</h2>
+    <app-loading *ngIf="isLoading$ | async"></app-loading>
+    <div *ngIf="!(isLoading$ | async) && allCourses">
+      <div class="row course-container">
+        <div class="course-item" *ngFor="let course of allCourses">
+          <div class="course-item-block" [routerLink]="['/courses', course.id]" 
+            (mouseenter)="showVideo(course, $event)" 
+            (mouseleave)="hideVideo($event)"
+            >
+            <div class="image-block">
+              <img src="{{ course.previewImageLink + '/cover.webp' }}" 
+                alt="course-image" 
+                class="img-fluid">
+              <video #videoElement [muted]="true"></video>
             </div>
-            <div>
-              <p>Skills you will acquire:</p>
-              <ul>
-                <li *ngFor="let courseSkill of course.meta.skills">{{ courseSkill }}</li>
-              </ul>
+            <div class="content-block">
+              <div class="content-block__tags">{{ course.tags }}</div>
+              <h4 class="content-block__title">{{ course.title }}</h4>
+              <div class="content-block__flex">
+                <div>
+                  <p class="content-block__text">Lectures: {{ course.lessonsCount }}</p>
+                  <div class="content-block__rating">
+                    <mat-icon>star</mat-icon> {{ course.rating }}
+                  </div>
+                </div>
+                <div class="overflow">
+                  <p>Skills you will acquire:</p>
+                  <ul>
+                    <li *ngFor="let courseSkill of course.meta.skills">{{ courseSkill }}</li>
+                  </ul>
+                </div>
+              </div>
+              <p class="date">
+                {{ course.launchDate | date:'longDate' }}
+              </p>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="pagination-container">
-      <nav aria-label="Page navigation example">
-        <ul class="pagination">
-          <li class="page-item">
-            <button class="page-link" [disabled]="currentPage === 1" (click)="previousPage()">Previous</button>
-          </li>
-          <li class="page-item" *ngFor="let page of pages" [ngClass]="{active: currentPage === page}">
-            <a class="page-link" (click)="pageChanged(page)">{{ page }}</a>
-          </li>
-          <li class="page-item">
-            <button class="page-link" [disabled]="currentPage === totalPages" (click)="nextPage()">Next</button>
-          </li>
-        </ul>
-      </nav>
+      <div class="pagination-container">
+        <nav aria-label="Page navigation example">
+          <ul class="pagination">
+            <li class="page-item-pagination">
+              <button class="page-link" [disabled]="currentPage === 1" (click)="previousPage()">Previous</button>
+            </li>
+            <li class="page-item-pagination" *ngFor="let page of pages">
+              <a class="page-link" (click)="pageChanged(page)" [ngClass]="{active: currentPage === page}">{{ page }}</a>
+            </li>
+            <li class="page-item-pagination">
+              <button class="page-link" [disabled]="currentPage === totalPages" (click)="nextPage()">Next</button>
+            </li>
+          </ul>
+        </nav>
+      </div>
     </div>
   </div>
-</div>
+</section>
+

@@ -20,6 +20,8 @@ import { TimeComponent } from "./components/components/time/time.component";
 import { VideoListComponent } from "./components/components/video-list/video-list.component";
 import { VideoWrapperComponent } from "./components/components/video-wrapper/video-wrapper.component";
 import { RouterModule } from "@angular/router";
+import { BackendErrorModule } from "src/app/shared/components/backendError/backendError.module";
+import { MatIconModule } from "@angular/material/icon";
 
 @NgModule({
   imports: [
@@ -33,7 +35,9 @@ import { RouterModule } from "@angular/router";
     MatSlideToggleModule,
     MatProgressSpinnerModule,
     MatSliderModule,
-    MatListModule
+    MatListModule,
+    BackendErrorModule,
+    MatIconModule,
   ],
   declarations: [
     PreviewCourseComponent,

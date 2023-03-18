@@ -1,24 +1,43 @@
-<div class="container">
-  <h1>Course Name</h1>
-  <app-loading *ngIf="isLoading$ | async"></app-loading>
-  <section>
+<app-backend-error *ngIf="error$ | async" [backendErrors]="error$ | async"></app-backend-error>
+
+<section class="lessons-section" *ngIf="!(error$ | async)">
+  <div class="container">
+    <app-loading *ngIf="isLoading$ | async"></app-loading>
     <div *ngIf="!(isLoading$ | async) && courseData">
-      <div *ngFor="let courseLesson of courseData.lessons">
-        <div></div>
-        <section>
+      <div class="course-data">
+        <div class="content-container">
+          <h1 class="course-title">{{ courseData.title }}</h1>
+          <p class="date">
+            {{ courseData.launchDate | date:'longDate' }}
+          </p>
+          <div><span class="text-strong">Description:</span> {{ courseData.description }}</div>
+          <div><span class="text-strong">Duration:</span> {{ courseData.duration }}</div>
           <div>
-            <h5>{{ courseLesson.title }}</h5>
-            <!-- <video id="video" src="{{ courseLesson.link }}"></video> -->
+            <p class="text-strong">Skills you will acquire:</p>
+            <ul>
+              <li *ngFor="let courseSkill of courseData.meta.skills">{{ courseSkill }}</li>
+            </ul>
           </div>
-        </section>
+        </div>
+        <div>
+          <div class="image-container">
+            <img src="{{ courseData.previewImageLink + '/cover.webp' }}" alt="course-image" class="img-fluid">
+          </div>
+        </div>
       </div>
+    </div>
+  </div>
+</section>
+<section class="video-section" *ngIf="!(error$ | async)">
+  <div class="container">
+    <div *ngIf="!(isLoading$ | async) && courseData">
       <div class="video-app">
         <div class="video-player">
           <app-video-wrapper></app-video-wrapper>
-          <app-controls></app-controls>
+          <app-controls [courseData]="courseData"></app-controls>
         </div>
-        <app-video-list class="list"></app-video-list>
+        <app-video-list class="list" [courseLesson]="courseData.lessons"></app-video-list>
       </div>
     </div>
-  </section>
-</div>
+  </div>
+</section>

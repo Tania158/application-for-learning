@@ -1,13 +1,14 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { AppStateInterface } from 'src/app/shared/types/appState.interface';
-import { IBackendErrorInterface } from 'src/app/shared/types/backendError.interface';
+import { IBackendError } from 'src/app/shared/types/backendError.interface';
 import { ICourseData } from 'src/app/shared/types/courseData.interface';
 import { getCoursesAction, setPage } from '../store/action/getCourses.action';
 import { coursesDataSelector, errorCoursesSelector, isLoadingCoursesSelector, setPageSelector } from '../store/selectors';
 import { environment } from '../../../../environments/environment';
 import { UtilsService } from 'src/app/shared/services/utils.service';
+import HLS from 'hls.js';
 
 @Component({
   selector: 'app-preview-courses',
@@ -17,7 +18,7 @@ import { UtilsService } from 'src/app/shared/services/utils.service';
 export class PreviewCoursesComponent implements OnInit, OnDestroy {
 
   isLoading$!: Observable<boolean>;
-  error$!: Observable<IBackendErrorInterface | null>;
+  error$!: Observable<IBackendError | null>;
 
   allCoursesSub!: Subscription;
   currentPageSub!: Subscription;
@@ -28,8 +29,15 @@ export class PreviewCoursesComponent implements OnInit, OnDestroy {
   pages!: number[];
   pageSise = environment.limit;
   currentPage!: number;
+  private hls = new HLS();
 
-  constructor(private store: Store<AppStateInterface>, private utilService: UtilsService) { }
+
+  @ViewChild('videoElement') videoElement!: ElementRef;
+
+  constructor(
+    private store: Store<AppStateInterface>,
+    private utilService: UtilsService
+  ) { }
 
   ngOnInit(): void {
     this.fetchData();
@@ -80,14 +88,41 @@ export class PreviewCoursesComponent implements OnInit, OnDestroy {
   previousPage() {
     if (this.currentPage > 1) {
       this.store.dispatch(setPage({ pageNumber: this.currentPage - 1 }));
+      window.scrollTo(0, 0);
     }
   }
 
   nextPage() {
     this.store.dispatch(setPage({ pageNumber: this.currentPage + 1 }));
+    window.scrollTo(0, 0);
   }
 
   pageChanged(page: number): void {
     this.store.dispatch(setPage({ pageNumber: page }));
+    window.scrollTo(0, 0);
   }
+
+  showVideo(course: ICourseData, event: MouseEvent): void {
+    if (course.meta.courseVideoPreview) {
+      const container = event.target as HTMLElement;
+      const videoElement = container.querySelector('video') as HTMLVideoElement;
+      const video = this.videoElement.nativeElement as HTMLVideoElement;
+      videoElement.src = video.src;
+      const hls = new HLS();
+      hls.attachMedia(videoElement);
+      hls.loadSource(course.meta.courseVideoPreview.link);
+      videoElement.style.display = 'block';
+      videoElement.play();
+    }
+  }
+
+  hideVideo(event: MouseEvent): void {
+    const container = event.target as HTMLElement;
+    const videoElement = container.querySelector('video') as HTMLVideoElement;
+    const video = this.videoElement.nativeElement as HTMLVideoElement;
+    videoElement.src = video.src;
+    videoElement.style.display = 'none';
+    videoElement.pause();
+  }
+
 }

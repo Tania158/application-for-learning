@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ILessons } from 'src/app/shared/types/courseResponse.interface';
 import { VideoPlaylistService } from '../../services/video-playlist.service';
+import { VideoTimeService } from '../../services/video-time.service';
 import { VideoService } from '../../services/video.service';
 
 @Component({
@@ -9,9 +10,19 @@ import { VideoService } from '../../services/video.service';
   styleUrls: ['./video-list.component.scss']
 })
 export class VideoListComponent implements OnInit {
+
+  @Input('courseLesson') courseLessonProps!: ILessons[];
+
   public playNext!: boolean;
   public videoEnded!: boolean;
-  public videoList: ({ name: string, selected: boolean })[] = [];
+  public videoList: ({
+    name: string,
+    selected: boolean,
+    duration: number,
+    order: number,
+    status: string,
+    id: string
+  })[] = [];
   private list: ILessons[] = [];
   private activeVideo = 0;
 
@@ -25,10 +36,14 @@ export class VideoListComponent implements OnInit {
     this.videoPlaylistService.currentVideo$.subscribe(currentVideo => {
       this.videoList = this.list.map(item => ({
         name: item.title,
-        selected: item.link === currentVideo
+        selected: item.link === currentVideo,
+        duration: item.duration,
+        order: item.order,
+        status: item.status,
+        id: item.id
       }));
     });
-    // this.videoPlaylistService.fetchList('./assets/playlist.json');
+    this.videoPlaylistService.fetchList(this.courseLessonProps);
     this.videoPlaylistService
       .shouldPlayNext$
       .subscribe(playNext => (this.playNext = playNext));

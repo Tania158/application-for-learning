@@ -15,7 +15,31 @@
     width: 100%;
   }
 
+  .list-item {
+    background-color: #F7F9FA;
+    color: #2C90C9;
+    border: 1px solid #C2CDD8;
+    margin: 5px 0;
+  }
+
+  .list-item:hover {
+    filter: drop-shadow(10px 10px 20px rgba(8, 102, 146, 0.351));
+  }
+
   .list-item.active {
-    background-color: #ff98bb;
+    background-color: #2C90C9;
+    color: white;
+  }
+
+  .mat-list-item-disabled {
+    background-color: #ededed !important;
+    color: #b4b4b4 !important;
+    cursor: not-allowed;
+    pointer-events: all !important;
+  }
+
+  mat-icon {
+    flex: 1 1 0;
+    text-align: end;
   }
 }

@@ -1,6 +1,24 @@
 body {
-  background-color: #f5f7f8!important;
+  background-color: #fff!important;
 }
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { margin: 0; font-family: 'Montserrat', sans-serif; }
+
+mat-slider .mat-slider-track-background {
+  background-color: rgba(0, 0, 0, .26) !important;
+}
+
+.mat-slider.mat-slider-min-value:not(.mat-slider-thumb-label-showing) .mat-slider-thumb {
+  border-color: rgba(0, 0, 0, .26);
+}
+
+.scrolltop-button.gray {
+  background-color: #006B99 !important;
+}
+
+.spinner-border {
+  --bs-spinner-width: 3rem !important;
+  --bs-spinner-height: 3rem !important;
+  --bs-spinner-border-width: 0.40em !important;
+}

@@ -1,0 +1,68 @@
+.lessons-section {
+  padding: 50px 0;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.course-title {
+  font-family: 'Fraunces', serif;
+  color: #2C90C9;
+  font-weight: 500;
+  font-size: 30px;
+}
+
+.course-data {
+  display: flex;
+  align-items: center;
+
+  .content-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    font-size: 16px;
+    line-height: 30px;
+  }
+}
+
+.text-strong {
+  font-weight: 600;
+}
+
+//----------------------------------------------------
+
+.video-section {
+  background-color: #F7F9FA;
+}
+
+.video-app {
+  padding: 100px 0;
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: flex-start;
+
+  .video-player {
+    width: 60%;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .list {
+    margin-left: 1.5em;
+    flex: 1;
+  }
+
+  @media (max-width: 800px) {
+    flex-direction: column;
+
+    .video-player {
+      width: 90%;
+    }
+
+    .list {
+      margin: 2em 0 0 0;
+      width: 90%;
+    }
+  }
+}

@@ -37,16 +37,15 @@ export class VideoWrapperComponent implements OnInit {
 
   @ViewChild('video', { static: true }) private video!: ElementRef<HTMLVideoElement>;
 
+
   constructor(
     private videoService: VideoService,
     private volumeService: VolumeService,
     private videoTimeService: VideoTimeService,
+    private videoPlaylistService: VideoPlaylistService
   ) {}
 
   public ngOnInit() {
-    // this.load('https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8');
-    this.load('https://wisey.app/videos/lack-of-motivation-how-to-overcome-it/lesson-2/AppleHLS1/lesson-2.m3u8');
-
     this.subscriptions();
     Object.keys(this.videoListeners).forEach(videoListener =>
       this.video.nativeElement.addEventListener(videoListener, this.videoListeners[videoListener])
@@ -102,6 +101,7 @@ export class VideoWrapperComponent implements OnInit {
     this.volumeService.volumeValue$.subscribe(volume => (this.video.nativeElement.volume = volume));
     this.videoService.loading$.subscribe(loading => (this.loading = loading));
     this.videoTimeService.ignore$.subscribe(ignore => (this.ignore = ignore));
+    this.videoPlaylistService.currentVideo$.subscribe(video => this.load(video));
   }
 
   /**

@@ -45,12 +45,8 @@ export class VideoPlaylistService {
     this.setCurrentVideo(this.list.getValue()[index].link);
   }
 
-  // public fetchList(endpoint: string): void {
-  //   fetch(endpoint)
-  //     .then(response => response.json())
-  //     .then((playlist: PlaylistItem[]) => {
-  //       this.list.next(playlist);
-  //       this.setCurrentVideo(playlist[0].url);
-  //     });
-  // }
+  public fetchList(playlist: ILessons[]): void {
+    this.list.next(playlist);
+    this.setCurrentVideo(playlist[0].link);
+  }
 }

@@ -15,9 +15,11 @@
       *ngFor="let video of videoList; let i = index"
       [ngClass]="{ active: video.selected }"
       (click)="playIt(i)"
+      disabled="{{ video.status === 'locked' }}"
     >
       <i class="material-icons">play_arrow</i>
-      {{ video.name }}
+      {{ video.order }}. {{ video.name}}
+      <mat-icon *ngIf="video.status === 'locked'">lock</mat-icon>
     </a>
   </mat-nav-list>
 </div>

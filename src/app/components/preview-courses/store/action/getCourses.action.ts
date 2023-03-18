@@ -1,5 +1,5 @@
 import { createAction, props } from "@ngrx/store";
-import { IBackendErrorInterface } from "src/app/shared/types/backendError.interface";
+import { IBackendError } from "src/app/shared/types/backendError.interface";
 import { ICourseData } from "src/app/shared/types/courseData.interface";
 import { ActionTypes } from "../actionTypes";
 
@@ -14,7 +14,7 @@ export const getCoursesSuccesAction = createAction(
 
 export const getCoursesFailureAction = createAction(
   ActionTypes.GET_COURSES_FAILURE,
-  props<{ errors: IBackendErrorInterface }>()
+  props<{ errors: IBackendError }>()
 );
 
 export const setPage = createAction(

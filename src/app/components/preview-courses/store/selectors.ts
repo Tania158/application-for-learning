@@ -1,6 +1,5 @@
 import { createSelector } from "@ngrx/store";
 import { AppStateInterface } from "src/app/shared/types/appState.interface";
-import { ICourseData } from "src/app/shared/types/courseData.interface";
 import { ICoursesStateInterface } from "src/app/shared/types/coursesState.interface";
 
 export const coursesFeatureSelector = (

@@ -85,14 +85,14 @@ export class PreviewCoursesComponent implements OnInit, OnDestroy {
     this.allCourses = allCoursesVisible;
   }
 
-  previousPage() {
+  previousPage(): void {
     if (this.currentPage > 1) {
       this.store.dispatch(setPage({ pageNumber: this.currentPage - 1 }));
       window.scrollTo(0, 0);
     }
   }
 
-  nextPage() {
+  nextPage(): void {
     this.store.dispatch(setPage({ pageNumber: this.currentPage + 1 }));
     window.scrollTo(0, 0);
   }
@@ -124,5 +124,4 @@ export class PreviewCoursesComponent implements OnInit, OnDestroy {
     videoElement.style.display = 'none';
     videoElement.pause();
   }
-
 }

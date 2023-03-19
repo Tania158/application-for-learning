@@ -9,23 +9,23 @@ export class TimeComponent {
   @Input() public duration!: number;
   @Input() public currentProgress!: number;
 
-  public padZeros(value = 0, padding = 2) {
+  public padZeros(value = 0, padding = 2): string {
     return `${Math.floor(value)}`.padStart(padding, '0');
   }
 
-  public get durationMinutes() {
+  public get durationMinutes(): number {
     return this.duration / 60;
   }
 
-  public get durationSeconds() {
+  public get durationSeconds(): number {
     return this.duration - (Math.floor(this.durationMinutes) * 60);
   }
 
-  public get currentMinutes() {
+  public get currentMinutes(): number {
     return this.currentProgress / 60;
   }
 
-  public get currentSeconds() {
+  public get currentSeconds(): number {
     return this.currentProgress - (Math.floor(this.currentMinutes) * 60);
   }
 }

@@ -9,7 +9,7 @@
   ></app-progress-bar>
   <div class="controls">
     <app-control [icon]="iconPlaying.value" [title]="iconPlaying.name" (click)="onPlayClick()"></app-control>
-    <app-control icon="skip_next" title="Next" (click)="onNextClick()"></app-control>
+    <app-control icon="skip_next" title="Next" (click)="onNextClick()" [ngClass]="{ disabled: disabled }"></app-control>
     <app-control-volume></app-control-volume>
     <app-time [currentProgress]="currentProgress" [duration]="duration"></app-time>
     <div class="full-screen">

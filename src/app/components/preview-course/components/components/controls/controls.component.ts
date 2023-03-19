@@ -1,10 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatSliderChange } from '@angular/material/slider';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ICourseResponse } from 'src/app/shared/types/courseResponse.interface';
 import { VideoPlaylistService } from '../../services/video-playlist.service';
+import { ProgressService } from '../../services/video-progress.service';
 import { VideoTimeService } from '../../services/video-time.service';
 import { VideoService } from '../../services/video.service';
 
+@UntilDestroy()
 @Component({
   selector: 'app-controls',
   templateUrl: './controls.component.html',
@@ -18,29 +21,40 @@ export class ControlsComponent implements OnInit {
   public currentTime = 0;
   public label = "Audio volume";
   private videoEnded = false;
+  public numberLesson!: number | null;
+  public disabled!: boolean;
 
   constructor(
     private videoService: VideoService,
     private videoTimeService: VideoTimeService,
-    private videoPlaylistService: VideoPlaylistService
+    private videoPlaylistService: VideoPlaylistService,
+    private progressService: ProgressService
   ) {}
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.videoService
       .playingState$
+      .pipe(untilDestroyed(this))
       .subscribe(playing => (this.playing = playing));
-    this.videoTimeService.videoDuration$.subscribe(
+    this.videoTimeService.videoDuration$
+      .pipe(untilDestroyed(this))
+      .subscribe(
       duration => (this.duration = duration)
     );
     this.videoTimeService.videoProgress$.subscribe(
-      progress => (this.currentProgress = progress)
+      progress => {
+        (this.currentProgress = progress)
+      }
     );
     this.videoService
       .videoEnded$
+      .pipe(untilDestroyed(this))
       .subscribe(ended => (this.videoEnded = ended));
+    
+    this.numberLesson = this.progressService.getCurrentLesson(this.courseDataProps.id);
   }
 
-  public onPlayClick() {
+  public onPlayClick(): void {
     if (this.playing) {
       this.videoService.pause();
     } else {
@@ -48,9 +62,14 @@ export class ControlsComponent implements OnInit {
     }
   }
 
-  public onNextClick() {
-    this.videoPlaylistService.playNextVideo();
-    this.videoService.play();
+  public onNextClick(): void {
+    if (!this.disabled) {
+      this.videoPlaylistService.playNextVideo();
+      this.videoService.play();
+    }
+    if (this.numberLesson) {
+      this.disabled = this.courseDataProps.lessons[this.numberLesson + 1].status === 'locked';
+    }
   }
 
   public onInput(event: MatSliderChange): void {
@@ -58,12 +77,12 @@ export class ControlsComponent implements OnInit {
     this.videoTimeService.setVideoProgress(event.value ?? 0);
   }
 
-  public onChange(event: MatSliderChange) {
+  public onChange(event: MatSliderChange): void {
     this.videoTimeService.setIgnore(false);
     this.videoTimeService.setCurrentTime(event.value ?? 0);
   }
 
-  public onFullscreen() {
+  public onFullscreen(): void {
     if (document.fullscreenElement) {
       document.exitFullscreen();
     } else {
@@ -74,7 +93,7 @@ export class ControlsComponent implements OnInit {
     }
   }
 
-  public get iconPlaying() {
+  public get iconPlaying(): {name: string, value: string} {
     return this.videoEnded
       ? {
           name: 'Replay',
@@ -91,7 +110,7 @@ export class ControlsComponent implements OnInit {
         };
   }
 
-  public ariaLabel() {
+  public ariaLabel(): string {
     return this.label;
   }
 }

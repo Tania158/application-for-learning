@@ -9,9 +9,12 @@ import { VideoService } from './video.service';
 export class VideoPlaylistService {
   private list = new BehaviorSubject<ILessons[]>([]);
   private currentVideo = new BehaviorSubject<string>('');
+  private currentVideoNumber!: number;
   private shouldPlayNext = new BehaviorSubject<boolean>(true);
 
-  public constructor(private videoService: VideoService) {}
+  public constructor(
+    private videoService: VideoService
+  ) { }
 
   public setShouldPlayNext(playNext: boolean): void {
     this.shouldPlayNext.next(playNext);
@@ -45,8 +48,24 @@ export class VideoPlaylistService {
     this.setCurrentVideo(this.list.getValue()[index].link);
   }
 
+  public setCurrentVideoNumber(lessonNumber: number): void {
+    this.currentVideoNumber = lessonNumber;
+  }
+
   public fetchList(playlist: ILessons[]): void {
     this.list.next(playlist);
-    this.setCurrentVideo(playlist[0].link);
+    let currentVideo!: string
+
+    if (playlist[this.currentVideoNumber].status == 'locked') {
+      this.videoService.setVideoEnded(false);
+      this.setShouldPlayNext(false);
+      return
+    } else {
+      currentVideo = playlist[this.currentVideoNumber].link;
+    }
+
+    if (currentVideo) {
+      this.setCurrentVideo(currentVideo);
+    }
   }
 }

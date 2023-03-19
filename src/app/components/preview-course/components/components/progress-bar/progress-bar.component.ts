@@ -13,11 +13,11 @@ export class ProgressBarComponent {
   @Output() public input = new EventEmitter<MatSliderChange>();
   @Output() public change = new EventEmitter<MatSliderChange>();
 
-  public inputHandler(event: MatSliderChange) {
+  public inputHandler(event: MatSliderChange): void {
     this.input.emit(event);
   }
 
-  public changeHandler(event: MatSliderChange) {
+  public changeHandler(event: MatSliderChange): void {
     this.change.emit(event);
   }
 }

@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSliderChange } from '@angular/material/slider';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { VolumeService } from '../../services/volume.service';
 
+@UntilDestroy()
 @Component({
   selector: 'app-control-volume',
   templateUrl: './control-volume.component.html',
@@ -23,28 +25,30 @@ export class ControlVolumeComponent implements OnInit {
 
   constructor(private volumeService: VolumeService) {}
 
-  public ngOnInit() {
-    this.volumeService.volumeValue$.subscribe(volume => this.volume = volume);
+  public ngOnInit(): void {
+    this.volumeService.volumeValue$
+      .pipe(untilDestroyed(this))
+      .subscribe(volume => this.volume = volume);
   }
 
-  public onVolumeClick() {
+  public onVolumeClick(): void {
     this.savedVolume = this.volume === 0 ? this.savedVolume : this.volume;
     this.volumeService.setVolumeValue(this.volume > 0 ? 0 : this.savedVolume);
   }
 
-  public onInput(event: MatSliderChange) {
+  public onInput(event: MatSliderChange): void {
     this.volumeService.setVolumeValue(event.value ?? 1);
   }
 
-  public get icon() {
+  public get icon(): string {
     return this.volume === 0 ? this.iconVolumeMute.value : this.iconVolumeUp.value;
   }
 
-  public get title() {
+  public get title(): string {
     return this.volume === 0 ? this.iconVolumeMute.name : this.iconVolumeUp.name;
   }
 
-  public get ariaLabel() {
+  public get ariaLabel(): string {
     return this.label;
   }
 }

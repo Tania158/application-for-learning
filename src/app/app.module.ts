@@ -13,6 +13,7 @@ import { routerReducer, StoreRouterConnectingModule } from '@ngrx/router-store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { PreviewCourseModule } from './components/preview-course/preview-course.module';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { PreviewCourseModule } from './components/preview-course/preview-course.
     PreviewCoursesModule,
     PreviewCourseModule,
     HttpClientModule,
-    NgxScrollTopModule
+    NgxScrollTopModule,
+    MatIconModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

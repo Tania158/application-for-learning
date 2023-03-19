@@ -22,6 +22,7 @@ import { VideoWrapperComponent } from "./components/components/video-wrapper/vid
 import { RouterModule } from "@angular/router";
 import { BackendErrorModule } from "src/app/shared/components/backendError/backendError.module";
 import { MatIconModule } from "@angular/material/icon";
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   imports: [
@@ -38,6 +39,7 @@ import { MatIconModule } from "@angular/material/icon";
     MatListModule,
     BackendErrorModule,
     MatIconModule,
+    MatTooltipModule
   ],
   declarations: [
     PreviewCourseComponent,

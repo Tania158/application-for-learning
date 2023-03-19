@@ -1,8 +1,8 @@
 <div class="video-list">
   <div class="header">
-    <h2 class="title">Next</h2>
-    <p>
-      <span>
+    <h2 class="title">Next Video</h2>
+    <p class="toggle-text">
+      <span class="toggle">
         Play next
       </span>
       <mat-slide-toggle (change)="onChange()" [checked]="playNext" aria-label="Enable autoplay"></mat-slide-toggle>
@@ -16,6 +16,10 @@
       [ngClass]="{ active: video.selected }"
       (click)="playIt(i)"
       disabled="{{ video.status === 'locked' }}"
+      mat-raised-button
+      matTooltip="This lesson is locked"
+      [matTooltipDisabled]="video.status !== 'locked'"
+      aria-label="Button that displays a tooltip that can be programmatically disabled"
     >
       <i class="material-icons">play_arrow</i>
       {{ video.order }}. {{ video.name}}

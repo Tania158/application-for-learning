@@ -20,8 +20,11 @@
           </div>
         </div>
         <div>
-          <div class="image-container">
+          <div class="image-container" 
+            (mouseenter)="showVideo(courseData, $event)" 
+            (mouseleave)="hideVideo($event)">
             <img src="{{ courseData.previewImageLink + '/cover.webp' }}" alt="course-image" class="img-fluid">
+            <video #videoElement [muted]="false"></video>
           </div>
         </div>
       </div>
@@ -31,13 +34,17 @@
 <section class="video-section" *ngIf="!(error$ | async)">
   <div class="container">
     <div *ngIf="!(isLoading$ | async) && courseData">
-      <div class="video-app">
+      <div class="video-app" *ngIf="courseData.lessons[0].link">
         <div class="video-player">
-          <app-video-wrapper></app-video-wrapper>
+          <app-video-wrapper [courseLesson]="courseData.lessons" [courseId]="courseId"></app-video-wrapper>
           <app-controls [courseData]="courseData"></app-controls>
         </div>
         <app-video-list class="list" [courseLesson]="courseData.lessons"></app-video-list>
       </div>
+      <div class="no-video" *ngIf="!(courseData.lessons[0].link)">
+        <p>These lectures have not been added yet. Come back to this course later.</p>
+      </div>
+
     </div>
   </div>
 </section>
